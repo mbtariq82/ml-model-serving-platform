@@ -65,7 +65,7 @@ def create_app(repository: ModelRepository | None = None) -> FastAPI:
         elif isinstance(exc, StageTransitionError):
             status_code = status.HTTP_409_CONFLICT
         elif isinstance(exc, ValidationError):
-            status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+            status_code = status.HTTP_422_UNPROCESSABLE_CONTENT
         return JSONResponse(status_code=status_code, content={"detail": str(exc)})
 
     @app.get("/health", response_model=HealthResponse)
