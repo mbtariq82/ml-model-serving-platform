@@ -61,7 +61,9 @@ class ExperimentService:
         ]
         by_version: dict[str, list[float]] = {variant.model_version: [] for variant in experiment.variants}
         for prediction in predictions:
-            by_version[prediction.model_version].append(abs(prediction.prediction - prediction.ground_truth))  # type: ignore[operator]
+            ground_truth = prediction.ground_truth
+            if ground_truth is not None:
+                by_version[prediction.model_version].append(abs(prediction.prediction - ground_truth))
 
         scores = {
             version: sum(errors) / len(errors)
